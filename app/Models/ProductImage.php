@@ -8,19 +8,40 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductImage extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'umkmId', 
         'product_id',
-        'product_image_file1',
-        'product_image_file2',
-        'product_image_file3'
+        'first_product_img',
+        'second_product_img',
+        'third_product_img'
         ];
 
+     /**
+     * first_product_img
+     * second_product_img
+     * third_product_img
+     * 
+     * @return Attribute
+     */
+
         // Accesore storage image product
-        protected function image(): Attribute
+        protected function firstProductImg(): Attribute
         {
             return Attribute::make(
-                get: fn ($image) => url('/storage/product/' . $image),
+                get: fn ($firstProductImg) => Url('/storage/products/' . $firstProductImg),
+            );
+        }
+        protected function secondProductImg(): Attribute
+        {
+            return Attribute::make(
+                get: fn ($secondProductImg) => Url('/storage/products/' . $secondProductImg),
+            );
+        }
+        protected function thirdProductImg(): Attribute
+        {
+            return Attribute::make(
+                get: fn ($thirdProductImg) => Url('/storage/products/' . $thirdProductImg),
             );
         }
 }

@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('umkm_images', function (Blueprint $table) {
             $table->id();
             $table->integer('umkm_id');
-            $table->string('umkm_image_file1');
-            $table->string('umkm_image_file2');
-            $table->string('umkm_image_file3');
+            $table->string('first_umkm_img');
+            $table->string('second_umkm_img');
+            $table->string('third_umkm_img');
             $table->timestamps();
         });
     }
