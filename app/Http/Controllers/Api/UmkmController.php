@@ -46,12 +46,12 @@ class UmkmController extends Controller
             'name' => 'required',
             'price' => 'required',
 
-            // validator image umkm
+            // // validator image umkm
             'first_umkm_img'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'second_umkm_img'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'third_umkm_img'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 
-            // validator image product
+            // // validator image product
             'first_product_img'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'second_product_img'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'third_product_img'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -61,7 +61,6 @@ class UmkmController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
-        
 
         // upload image umkms
         $firstUmkmImg = $request->file('first_umkm_img');

@@ -27,19 +27,19 @@ class UmkmImage extends Model
     protected function firstUmkmImg(): Attribute
     {
         return Attribute::make(
-            get: fn ($firstUmkmImg) => asset('/storage/umkms/' . $firstUmkmImg),
+            get: fn ($firstUmkmImg) => Url('/storage/umkms/' . $firstUmkmImg),
         );
     }
     protected function secondUmkmImg(): Attribute
     {
         return Attribute::make(
-            get: fn ($secondUmkmImg) => asset('/storage/umkms/' . $secondUmkmImg),
+            get: fn ($secondUmkmImg) => Url('/storage/umkms/' . $secondUmkmImg),
         );
     }
     protected function thirdUmkmImg(): Attribute
     {
         return Attribute::make(
-            get: fn ($thirdUmkmImg) => asset('/storage/umkms/' . $thirdUmkmImg),
+            get: fn ($thirdUmkmImg) => Url('/storage/umkms/' . $thirdUmkmImg),
         );
     }
 }
