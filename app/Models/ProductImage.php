@@ -17,31 +17,23 @@ class ProductImage extends Model
         'third_product_img'
         ];
 
-     /**
-     * first_product_img
-     * second_product_img
-     * third_product_img
-     * 
-     * @return Attribute
-     */
-
-        // Accesore storage image product
+        // Accessor storage image product
         protected function firstProductImg(): Attribute
         {
             return Attribute::make(
-                get: fn ($firstProductImg) => Url('/storage/products/' . $firstProductImg),
+                get: fn ($firstProductImg) => url('/storage/products/' . $firstProductImg),
             );
         }
         protected function secondProductImg(): Attribute
         {
             return Attribute::make(
-                get: fn ($secondProductImg) => Url('/storage/products/' . $secondProductImg),
+                get: fn ($secondProductImg) => url('/storage/products/' . $secondProductImg),
             );
         }
         protected function thirdProductImg(): Attribute
         {
             return Attribute::make(
-                get: fn ($thirdProductImg) => Url('/storage/products/' . $thirdProductImg),
+                get: fn ($thirdProductImg) => url('/storage/products/' . $thirdProductImg),
             );
         }
 }

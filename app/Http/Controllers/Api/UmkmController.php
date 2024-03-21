@@ -17,12 +17,20 @@ class UmkmController extends Controller
 {
     public function index()
     {
-        //get all posts
-        $posts = Umkm::select('umkms.id', 'umkms.umkm_name', 'umkms.description', 'umkms.address', 'umkms.city', 'umkms.province', 'umkms.owner_name', 'umkms.contact', 'umkm_images.first_umkm_img')
+        //get all umkm
+        $posts = Umkm::select('umkms.id', 
+        'umkms.umkm_name', 
+        'umkms.description', 
+        'umkms.address', 
+        'umkms.city', 
+        'umkms.province', 
+        'umkms.owner_name', 
+        'umkms.contact', 
+        'umkm_images.first_umkm_img')
                 ->join('umkm_images', 'umkms.id', '=', 'umkm_images.umkm_id')
                 ->paginate(5);
 
-        //return collection of posts as a resource
+        //return collection of umkms as a resource
         return new UmkmResource(true, 'List Data UMKM', $posts);
     }
 
@@ -44,12 +52,12 @@ class UmkmController extends Controller
             'name' => 'required',
             'price' => 'required',
 
-            // // validator image umkm
+            // validator image umkm
             'first_umkm_img'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'second_umkm_img'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'third_umkm_img'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 
-            // // validator image product
+            // validator image product
             'first_product_img'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'second_product_img'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'third_product_img'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -60,7 +68,7 @@ class UmkmController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        // upload image umkms
+        // upload image umkms to local storage
         $firstUmkmImg = $request->file('first_umkm_img');
         $firstUmkmImg->storeAs('public/umkms', $firstUmkmImg->hashName());
         $secondUmkmImg = $request->file('second_umkm_img');
@@ -68,7 +76,7 @@ class UmkmController extends Controller
         $thirdUmkmImg = $request->file('third_umkm_img');
         $thirdUmkmImg->storeAs('public/umkms', $thirdUmkmImg->hashName());
 
-        //upload product umkm
+        //upload product umkm to local storage
         $firstProductImg = $request->file('first_product_img');
         $firstProductImg->storeAs('public/products', $firstProductImg->hashName());
         $secondProductImg = $request->file('second_product_img');
@@ -122,10 +130,7 @@ class UmkmController extends Controller
 
     public function show($id)
     {   
-
         //find umkm by ID
-        // $post = Umkm::find($id);
-
         $post = Umkm::select('umkms.id','umkms.umkm_name', 'umkms.description', 'umkms.address', 'umkms.city', 'umkms.province', 'umkms.owner_name', 'umkms.contact', 
         'umkm_images.first_umkm_img', 'umkm_images.second_umkm_img', 'umkm_images.third_umkm_img',
         'products.code', 'products.name', 'products.price',
@@ -137,7 +142,7 @@ class UmkmController extends Controller
         ->first();
 
         //return single post as a resource
-        return new UmkmResource(true, 'Detail Data Post!', $post);
+        return new UmkmResource(true, 'Detail Data UMKM!', $post);
     }
 
     public function update(Request $request, $id)
@@ -145,9 +150,6 @@ class UmkmController extends Controller
         //define validation rules
         $validator = Validator::make($request->all(), [
             // validator umkm
-            'first_umkm_img'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'second_umkm_img'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'third_umkm_img'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'umkm_name' => 'required', 
             'description' => 'required',
             'address' => 'required',
@@ -160,9 +162,6 @@ class UmkmController extends Controller
             'code' => 'required',
             'name' => 'required',
             'price' => 'required',
-            'first_product_img'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'second_product_img'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'third_product_img'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         //check if validation fails
@@ -206,7 +205,7 @@ class UmkmController extends Controller
             Storage::delete('public/products/'.basename($productImage->second_product_img));
             Storage::delete('public/products/'.basename($productImage->third_product_img));
 
-            //update post with new image
+            //update umkm with new data
             $umkm->update([
                 'umkm_name'     => $request->umkm_name,
                 'description'   => $request->description,
@@ -216,31 +215,46 @@ class UmkmController extends Controller
                 'owner_name'   => $request->owner_name,
                 'contact'   => $request->contact,
             ]);
-            $umkmImage->update([
-                'first_umkm_img'     => $first_umkm_img->hashName(),
-                'second_umkm_img'     => $second_umkm_img->hashName(),
-                'third_umkm_img'     => $third_umkm_img->hashName(),
-            ]);
+
+            //update product with new data
             $product->update([
                 'code'   => $request->code,
                 'name'   => $request->name,
                 'price'   => $request->price,
             ]);
-            $productImage->update([                
-                'first_product_img'   => $request->first_product_img,
-                'second_product_img'   => $request->second_product_img,
-                'third_product_img'   => $request->third_product_img
+
+            //update umkm with new images
+            $umkmImage->update([
+                'first_umkm_img'     => $first_umkm_img->hashName(),
+                'second_umkm_img'     => $second_umkm_img->hashName(),
+                'third_umkm_img'     => $third_umkm_img->hashName(),
             ]);
 
+            //update product with new images
+            $productImage->update([                
+                'first_product_img'   => $first_product_img->hashName(),
+                'second_product_img'   => $second_product_img->hashName(),
+                'third_product_img'   => $third_product_img->hashName()
+            ]);
         } 
-        // else {
-
-        //     //update post without image
-        //     $post->update([
-        //         'title'     => $request->title,
-        //         'content'   => $request->content,
-        //     ]);
-        // }
+        else {
+                //update post without image
+                $umkm->update([
+                    'umkm_name'     => $request->umkm_name,
+                    'description'   => $request->description,
+                    'address'   => $request->address,
+                    'city'   => $request->city,
+                    'province'   => $request->province,
+                    'owner_name'   => $request->owner_name,
+                    'contact'   => $request->contact,
+                ]);
+    
+                $product->update([
+                    'code'   => $request->code,
+                    'name'   => $request->name,
+                    'price'   => $request->price,
+                ]);
+            }
 
         //return response
         return [
@@ -255,7 +269,7 @@ class UmkmController extends Controller
     public function destroy($id)
     {
 
-        //find post by ID
+        //find data umkm by ID
         $delUmkm = Umkm::find($id);
         $delUmkmImage = UmkmImage::find($id);
         $delProduct = Product::find($id);
@@ -269,7 +283,7 @@ class UmkmController extends Controller
         Storage::delete('public/products/'.basename($delProductImage->second_product_img));
         Storage::delete('public/products/'.basename($delProductImage->third_product_img));
 
-        //delete post
+        //delete umkm data
         $delUmkm->delete();
         $delUmkmImage->delete();
         $delProduct->delete();

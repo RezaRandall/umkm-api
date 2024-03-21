@@ -17,7 +17,6 @@ class Umkm extends Model
         'province',
         'owner_name',
         'contact',     
-        'image',
         'first_umkm_img',
         'second_umkm_img',
         'third_umkm_img',
@@ -25,30 +24,24 @@ class Umkm extends Model
         'second_product_img',
         'third_product_img',
         ];
-        protected function image(): Attribute
-        {
-            return Attribute::make(
-                get: fn ($image) => Url('/storage/umkms/' . $image),
-            );
-        }
 
         // UMKM
         protected function firstUmkmImg(): Attribute
         {
             return Attribute::make(
-                get: fn ($firstUmkmImg) => Url('/storage/umkms/' . $firstUmkmImg),
+                get: fn ($firstUmkmImg) => url('/storage/umkms/' . $firstUmkmImg),
             );
         }
         protected function secondUmkmImg(): Attribute
         {
             return Attribute::make(
-                get: fn ($secondUmkmImg) => Url('/storage/umkms/' . $secondUmkmImg),
+                get: fn ($secondUmkmImg) => url('/storage/umkms/' . $secondUmkmImg),
             );
         }
         protected function thirdUmkmImg(): Attribute
         {
             return Attribute::make(
-                get: fn ($thirdUmkmImg) => Url('/storage/umkms/' . $thirdUmkmImg),
+                get: fn ($thirdUmkmImg) => url('/storage/umkms/' . $thirdUmkmImg),
             );
         }
 
@@ -56,19 +49,19 @@ class Umkm extends Model
         protected function firstProductImg(): Attribute
         {
             return Attribute::make(
-                get: fn ($firstProductImg) => Url('/storage/products/' . $firstProductImg),
+                get: fn ($firstProductImg) => url('/storage/products/' . $firstProductImg),
             );
         }
         protected function secondProductImg(): Attribute
         {
             return Attribute::make(
-                get: fn ($secondProductImg) => Url('/storage/products/' . $secondProductImg),
+                get: fn ($secondProductImg) => url('/storage/products/' . $secondProductImg),
             );
         }
         protected function thirdProductImg(): Attribute
         {
             return Attribute::make(
-                get: fn ($thirdProductImg) => Url('/storage/products/' . $thirdProductImg),
+                get: fn ($thirdProductImg) => url('/storage/products/' . $thirdProductImg),
             );
         }
 }

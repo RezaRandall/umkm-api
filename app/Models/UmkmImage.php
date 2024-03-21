@@ -16,30 +16,22 @@ class UmkmImage extends Model
         'third_umkm_img',
         ];
 
-     /**
-     * first_umkm_img
-     * second_umkm_img
-     * third_umkm_img
-     * 
-     * @return Attribute
-     */
-
     protected function firstUmkmImg(): Attribute
     {
         return Attribute::make(
-            get: fn ($firstUmkmImg) => Url('/storage/umkms/' . $firstUmkmImg),
+            get: fn ($firstUmkmImg) => url('/storage/umkms/' . $firstUmkmImg),
         );
     }
     protected function secondUmkmImg(): Attribute
     {
         return Attribute::make(
-            get: fn ($secondUmkmImg) => Url('/storage/umkms/' . $secondUmkmImg),
+            get: fn ($secondUmkmImg) => url('/storage/umkms/' . $secondUmkmImg),
         );
     }
     protected function thirdUmkmImg(): Attribute
     {
         return Attribute::make(
-            get: fn ($thirdUmkmImg) => Url('/storage/umkms/' . $thirdUmkmImg),
+            get: fn ($thirdUmkmImg) => url('/storage/umkms/' . $thirdUmkmImg),
         );
     }
 }
